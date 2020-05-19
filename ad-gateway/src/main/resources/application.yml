@@ -1,0 +1,18 @@
+server:
+  port: 9000
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 182.254.181.205:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ad-sponor
+          uri: lb://ad-sponor
+          predicates:
+          - Path=/sponsor/**
+  application:
+    name: ad-gateway
