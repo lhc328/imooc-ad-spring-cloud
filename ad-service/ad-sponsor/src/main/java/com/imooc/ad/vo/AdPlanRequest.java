@@ -27,4 +27,12 @@ public class AdPlanRequest {
                 && !StringUtils.isEmpty(startDate)
                 && !StringUtils.isEmpty(endDate);
     }
+
+    public boolean updateValid() {
+        return id != null && userId != null;
+    }
+
+    public boolean deleteValid() {
+        return id != null && userId != null;
+    }
 }

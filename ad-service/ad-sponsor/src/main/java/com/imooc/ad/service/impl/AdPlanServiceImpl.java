@@ -1,5 +1,6 @@
 package com.imooc.ad.service.impl;
 
+import com.imooc.ad.constant.CommonStatus;
 import com.imooc.ad.constant.Constants;
 import com.imooc.ad.dao.AdPlanRepository;
 import com.imooc.ad.dao.AdUserRepository;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -58,5 +60,55 @@ public class AdPlanServiceImpl implements IAdPlanService {
                         CommonUtils.parseStringDate(request.getEndDate()))
         );
         return new AdPlanResponse(newPlan.getId(), newPlan.getPlanName());
+    }
+
+    @Override
+    @Transactional
+    public AdPlanResponse updateAdPlan(AdPlanRequest request) throws AdException {
+        if (!request.updateValid()) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        AdPlan plan = adPlanRepository.findByIdAndUserId(request.getId(), request.getUserId());
+
+        if (plan == null) {
+            throw new AdException(Constants.ErrorMsg.CAN_NOT_FIND_RECORD);
+        }
+
+        if (request.getPlanName() != null) {
+            plan.setPlanName(request.getPlanName());
+        }
+        if (request.getStartDate() != null) {
+            plan.setStartDate(
+                    CommonUtils.parseStringDate(request.getStartDate())
+            );
+        }
+        if (request.getEndDate() != null) {
+            plan.setEndDate(
+                    CommonUtils.parseStringDate(request.getEndDate())
+            );
+        }
+
+        plan.setUpdateTime(new Date());
+        adPlanRepository.save(plan);
+        return new AdPlanResponse(plan.getId(), plan.getPlanName());
+    }
+
+    @Override
+    public void deleteAdPlan(AdPlanRequest request) throws AdException {
+        if (!request.deleteValid()) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        AdPlan plan = adPlanRepository.findByIdAndUserId(
+                request.getId(), request.getUserId()
+        );
+        if (plan == null) {
+            throw new AdException(Constants.ErrorMsg.CAN_NOT_FIND_RECORD);
+        }
+
+        plan.setPlanStatus(CommonStatus.INVALID.getStatus());
+        plan.setUpdateTime(new Date());
+        adPlanRepository.save(plan);
     }
 }
