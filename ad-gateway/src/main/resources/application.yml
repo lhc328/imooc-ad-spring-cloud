@@ -13,6 +13,6 @@ spring:
         - id: ad-sponor
           uri: lb://ad-sponor
           predicates:
-          - Path=/sponsor/**
+          - Path=/ad-sponsor/**
   application:
     name: ad-gateway
