@@ -1,7 +1,5 @@
 server:
   port: 8001
-  servlet:
-    context-path: /ad-sponsor
 spring:
   application:
     name: ad-sponsor
@@ -18,7 +16,7 @@ spring:
       hibernate.format_sql: true
     open-in-view: false
   datasource:
-    url: jdbc:mysql://182.254.181.205:3306/imooc_ad_data?autoReconnect=true
+    url: jdbc:mysql://182.254.181.205:3306/imooc_ad_data?autoReconnect=true&useSSL=false
     username: root
     password: 123213123123
     tomcat:

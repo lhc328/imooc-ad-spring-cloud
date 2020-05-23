@@ -9,6 +9,7 @@ import com.imooc.ad.entity.AdUser;
 import com.imooc.ad.exception.AdException;
 import com.imooc.ad.service.IAdPlanService;
 import com.imooc.ad.utils.CommonUtils;
+import com.imooc.ad.vo.AdPlanGetRequest;
 import com.imooc.ad.vo.AdPlanRequest;
 import com.imooc.ad.vo.AdPlanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -110,5 +112,16 @@ public class AdPlanServiceImpl implements IAdPlanService {
         plan.setPlanStatus(CommonStatus.INVALID.getStatus());
         plan.setUpdateTime(new Date());
         adPlanRepository.save(plan);
+    }
+
+    @Override
+    public List<AdPlan> getAdPlanByIds(AdPlanGetRequest request) throws AdException {
+        if (!request.validate()) {
+            throw new AdException(Constants.ErrorMsg.REQUEST_PARAM_ERROR);
+        }
+
+        return adPlanRepository.findAllByIdInAndUserId(
+                request.getIds(), request.getUserId()
+        );
     }
 }

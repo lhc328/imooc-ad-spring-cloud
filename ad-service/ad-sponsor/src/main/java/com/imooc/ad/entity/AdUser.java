@@ -42,7 +42,7 @@ public class AdUser {
     private Date createTime;
 
     @Basic
-    @Column(name = "uodate_time", nullable = false)
+    @Column(name = "update_time", nullable = false)
     private Date updateTime;
 
     public AdUser(String username, String token) {
