@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdCreativeTable {
-    private Long adid;
+    private Long adId;
     private String name;
     private Integer type;
     private Integer materialType;

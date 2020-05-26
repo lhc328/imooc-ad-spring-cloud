@@ -43,6 +43,11 @@ public class TemplateHolder {
         loadJson("template.json");
     }
 
+    public TableTemplate getTable(String tableName) {
+        return template.getTableTemplateMap().get(tableName);
+    }
+
+
     private void loadJson(String path) {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = cl.getResourceAsStream(path);
